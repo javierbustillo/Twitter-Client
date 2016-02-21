@@ -11,9 +11,16 @@ import BDBOAuth1Manager
 
 class LoginViewController: UIViewController {
 
+    @IBOutlet weak var logoView: UIImageView!
+  
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        logoView.image = UIImage(named: "TwitterLogo_white.png")
+        
+        
+        
+        
         // Do any additional setup after loading the view.
     }
 
@@ -22,7 +29,7 @@ class LoginViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func onLoginButton(sender: AnyObject) {
+      @IBAction func onLoginButton(sender: AnyObject) {
         let client = TwitterClient.sharedInstance
       
         client.login({ () -> () in

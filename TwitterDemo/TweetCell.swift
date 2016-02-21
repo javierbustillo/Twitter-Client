@@ -58,10 +58,30 @@ class TweetCell: UITableViewCell {
         }
     }
     
+    var retweeted = false
+    var favorited = false
+    
+    @IBAction func retweetButton(sender: UIButton) {
+        if !retweeted {
+            
+            TwitterClient.sharedInstance.retweet(tweet.tweetID!)
+            
+            retweeted = true
+            retweetCount.text = "\(tweet.retweetCount + 1) retweets"
+        }
+    }
     
     
-    
-    
+    @IBAction func favoriteButton(sender: UIButton) {
+        if !favorited {
+            TwitterClient.sharedInstance.favorited(tweet.tweetID!)
+            
+            favorited = true
+            favoriteCount.text = "\(tweet.favoritesCount + 1) favorites"
+            
+        }
+        
+    }
     
     
     

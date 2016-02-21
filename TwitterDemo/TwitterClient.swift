@@ -71,6 +71,29 @@ class TwitterClient: BDBOAuth1SessionManager {
         }
     }
     
+    func retweet(id:String) {
+        TwitterClient.sharedInstance.POST("1.1/statuses/retweet/\(id).json", parameters:nil , success: { (operation:NSURLSessionDataTask?, response:AnyObject?) -> Void in
+            print("successfully retweeted")
+            print(response)
+            }) { (operation:NSURLSessionDataTask?, error:NSError!) -> Void in
+                print("failed to retweet")
+        }
+    }
+    
+        
+        
+        func favorited(id:String) {
+            TwitterClient.sharedInstance.POST("1.1/favorites/create.json?id=\(id)", parameters:nil , success: { (operation:NSURLSessionDataTask?, response:AnyObject?) -> Void in
+                print("successfully favorited")
+                print(response)
+                }) { (operation:NSURLSessionDataTask?, error:NSError!) -> Void in
+                    print("failed to favorited")
+            }
+        }
+    
+    
+    
+    
     func logout(){
         User.currentUser = nil
         
@@ -78,6 +101,8 @@ class TwitterClient: BDBOAuth1SessionManager {
         NSNotificationCenter.defaultCenter().postNotificationName(User.userDidLogoutNotification, object: nil)
     }
     
+   
+        
     func login(success: () -> (), failure: (NSError)-> ()){
         loginSuccess = success
         loginFailure = failure
@@ -93,8 +118,8 @@ class TwitterClient: BDBOAuth1SessionManager {
             }) { (error: NSError!) -> Void in
                 print("error: \(error.localizedDescription)")
                 self.loginFailure?(error)
-                
+        }
         }
 
     }
-}
+
