@@ -14,6 +14,7 @@ class ComposeTweetViewController: UIViewController, UITextViewDelegate {
     var replyFor: String = ""
     var tweetId: String = ""
     
+    
     @IBOutlet weak var tweetField: UITextView!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,15 +30,15 @@ class ComposeTweetViewController: UIViewController, UITextViewDelegate {
     }
     
     @IBAction func tweetButton(sender: AnyObject) {
-       
+            print("tweeted!")
         if reply == true{
             TwitterClient.sharedInstance.reply(tweetId, tweetText: "\(tweetField.text)")
-        }else{
-            TwitterClient.sharedInstance.composeTweet(tweetField.text)
+                    }else{
+            TwitterClient.sharedInstance.composeTweet("\(tweetField.text)")
         }
+        dismissViewControllerAnimated(false, completion: nil)
         
-        
-    }
+            }
 
     /*
     // MARK: - Navigation

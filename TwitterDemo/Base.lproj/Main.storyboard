@@ -213,7 +213,7 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <state key="normal" title="Tweet!"/>
                                     <connections>
-                                        <segue destination="k2D-I2-8yN" kind="push" identifier="compose" id="Mgl-s0-9dp"/>
+                                        <segue destination="k2D-I2-8yN" kind="modal" identifier="compose" id="Mgl-s0-9dp"/>
                                     </connections>
                                 </button>
                             </barButtonItem>
@@ -485,7 +485,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <connections>
                                     <action selector="replyButton:" destination="Muy-zZ-eLc" eventType="touchUpInside" id="pAP-2P-xcn"/>
-                                    <segue destination="k2D-I2-8yN" kind="push" identifier="reply" id="uvS-dC-1c1"/>
+                                    <segue destination="k2D-I2-8yN" kind="modal" identifier="reply" id="uvS-dC-1c1"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -593,7 +593,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Mgl-s0-9dp"/>
         <segue reference="7U9-gs-q5K"/>
+        <segue reference="uvS-dC-1c1"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -36,8 +36,11 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.dataSource = self
         self.tableView.reloadData()
         // Do any additional setup after loading the view.
+       
         
-        
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action:"refreshControlAction:",forControlEvents: UIControlEvents.ValueChanged)
+        self.tableView.insertSubview(refreshControl, atIndex: 0)
     }
 
     override func didReceiveMemoryWarning() {
@@ -72,6 +75,42 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         
         
         return cell
+    }
+    func tweetInfo(){
+        TwitterClient.sharedInstance.homeTimeLine({ (tweets: [Tweet]) -> () in
+            self.tweets = tweets
+            for tweet in tweets{
+                print(tweet.text)
+                self.tableView.reloadData()
+            }
+            }) { (error: NSError) -> () in
+                print(error.localizedDescription)
+        }
+    }
+    
+    func refreshControlAction(refreshControl: UIRefreshControl) {
+        
+        //let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
+        //let url = NSURL(string: "https://api.themoviedb.org/3/movie/\(endpoint)?api_key=\(apiKey)")
+        let url =  NSURL(tweetInfo())
+        
+        let request = NSURLRequest(URL: url)
+        
+        let session = NSURLSession(
+            configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
+            delegate:nil,
+            delegateQueue:NSOperationQueue.mainQueue()
+        )
+        
+        let task : NSURLSessionDataTask = session.dataTaskWithRequest(request,
+            completionHandler: { (data, response, error) in
+                
+                self.tableView.reloadData()
+                
+                
+                refreshControl.endRefreshing()
+        });
+        task.resume()
     }
 
     
