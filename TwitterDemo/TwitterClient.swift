@@ -71,6 +71,30 @@ class TwitterClient: BDBOAuth1SessionManager {
         }
     }
     
+    func getUser(screenname: String, completion: (tweet: [Tweet]?, error: NSError?)-> ()) {
+        GET("1.1/statuses/user_timeline.json?screen_name=\(screenname)", parameters: nil,
+            success: { (operation: NSURLSessionDataTask?, response: AnyObject?) -> Void in
+                var tweets = Tweet.tweetsWithArray(response as! [NSDictionary])
+                completion(tweet: tweets, error: nil)
+            },
+            
+            failure: { (operation: NSURLSessionDataTask?, error: NSError!) -> Void in
+                print("Error retrieving info: \(error)")
+                
+                
+        })
+        
+    }
+    
+    func reply(tweetId: String, tweetText: String){
+        let escapedText = (tweetText.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding))!
+        TwitterClient.sharedInstance.POST("1.1/statuses/update.json?status=\(escapedText)&in_reply_to_status_id=\(tweetId)", parameters: nil, success: { (operation:NSURLSessionDataTask, response:AnyObject?) -> Void in
+            print("replied")
+            }) { (operation:NSURLSessionDataTask?, error:NSError) -> Void in
+                print("failed to reply")
+        }
+    }
+    
     func retweet(id:String) {
         TwitterClient.sharedInstance.POST("1.1/statuses/retweet/\(id).json", parameters:nil , success: { (operation:NSURLSessionDataTask?, response:AnyObject?) -> Void in
             print("successfully retweeted")
@@ -92,7 +116,21 @@ class TwitterClient: BDBOAuth1SessionManager {
         }
     
     
-    
+    func composeTweet(tweetField:String){
+        
+        let escapedText = (tweetField.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding))!
+
+        
+        
+        TwitterClient.sharedInstance.POST("1.1/statuses/update.json?status=\(escapedText)", parameters:nil, success: { (operation:NSURLSessionDataTask?, response:AnyObject?) -> Void in
+            print("succesfully tweeted")
+            
+            
+            }) { (operation:NSURLSessionDataTask?, error:NSError!) -> Void in
+                print("failed to tweet")
+                
+        }
+    }
     
     func logout(){
         User.currentUser = nil

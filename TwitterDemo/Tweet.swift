@@ -17,7 +17,14 @@ class Tweet: NSObject {
     var name: String?
     var profileUrl: NSURL?
     var screenname: String?
-    var tweetID:String?
+    var tweetID: String?
+    var user: User?
+    var bannerUrl: NSURL?
+    var followingNumber: Int!
+    var followerNumber: Int!
+    var tweetNumber: Int!
+    var Index: Int!
+    
     
     init(dictionary: NSDictionary){
         text = dictionary["text"] as? String
@@ -26,12 +33,22 @@ class Tweet: NSObject {
         name = dictionary["user"]!["name"] as? String
         screenname = dictionary["user"]!["screen_name"] as? String
         
+       let bannerUrlString = dictionary["user"]!["profile_background_image_url"] as? String
+        if let bannerUrlString = bannerUrlString{
+            bannerUrl = NSURL(string: bannerUrlString)
+            tweetID = (dictionary["id_str"] as! String?)!
+        }
+        
+        
         let profileUrlString = dictionary["user"]!["profile_image_url_https"] as? String
         if let profileUrlString = profileUrlString{
             profileUrl = NSURL(string: profileUrlString)
             tweetID = (dictionary["id_str"] as! String?)!
             
         }
+        followingNumber = dictionary["user"]!["friends_count"] as! Int
+        followerNumber = dictionary["user"]!["followers_count"] as? Int
+        tweetNumber = dictionary["user"]!["statuses_count"] as? Int
 
         
         

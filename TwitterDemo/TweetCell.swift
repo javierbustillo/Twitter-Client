@@ -21,6 +21,9 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var favoriteCount: UILabel!
   
     @IBOutlet weak var dateCreated: UILabel!
+    var tweetid: String?
+    
+    
     var tweet: Tweet!{
         didSet{
             tweetLabel.text = tweet.text 
@@ -28,8 +31,8 @@ class TweetCell: UITableViewCell {
             
             userImage.setImageWithURL(tweet.profileUrl!)
             userScreen.text = "@" + (tweet.screenname)!
-            retweetCount.text = "\(tweet.retweetCount) retweets"
-            favoriteCount.text = "\(tweet.favoritesCount) favorites"
+            retweetCount.text = "\(tweet.retweetCount) RT"
+            favoriteCount.text = "\(tweet.favoritesCount) Likes"
             dateCreated.text = "\(returnTime(tweet.timestamp!)) ago"
         
             
@@ -61,6 +64,10 @@ class TweetCell: UITableViewCell {
     var retweeted = false
     var favorited = false
     
+    @IBAction func replyButton(sender: AnyObject) {
+        
+    }
+    @IBOutlet weak var replyButton: UILabel!
     @IBAction func retweetButton(sender: UIButton) {
         if !retweeted {
             
